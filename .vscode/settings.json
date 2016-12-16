@@ -1,0 +1,10 @@
+{
+    "typescript.check.workspaceVersion": false,
+    "path-intellisense.mappings": {
+        "css":"${workspaceRoot}/public/css",
+        "svg":"${workspaceRoot}/public/svg",
+        "js":"${workspaceRoot}/public/js",
+        "img":"${workspaceRoot}/public/img"
+    },
+    "npm-intellisense.scanDevDependencies": true
+}
