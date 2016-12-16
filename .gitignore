@@ -2,4 +2,3 @@ node_modules
 build
 public/js
 token.json
-**/config.ts
