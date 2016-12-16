@@ -11,7 +11,7 @@ style ("one", "ordered"; default "one")
 
 1. run ```npm install``` in workspaceRoot directory
 
-2. change ```client_id``` and ```client_secret``` in ```./src/resources/config.ts```
+2. change ```client_id``` , ```client_secret``` and ```redirectUri``` in ```./src/resources/config.ts```
 
 3. make sure gulp is installed globally, then ```gulp default```
 

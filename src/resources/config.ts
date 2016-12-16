@@ -18,6 +18,6 @@ export const config = {
         OAuth2Addr: "https://api.weibo.com/",
         commonAddr: "https://api.weibo.com/2/",
         weiboMain: "http://weibo.com",
-        redirectUri: "http://www.raiyku.com/OAuth2/callback"
+        redirectUri: "Your callback Uri"
     }
 }
