@@ -11,6 +11,7 @@ body {
 }
 
 .github-fork-ribbon {
+  display: none;
   position: absolute;
   top: 0;
   right: -160px;
@@ -192,7 +193,7 @@ a {
 }
 
 .hide {
-  display: none;
+  display: none !important;
 }
 
 #banner {
@@ -263,8 +264,9 @@ a {
   }
 }
 
-@media only screen and (min-width:980px) {
+@media only screen and (min-width:1218px) {
   .github-fork-ribbon {
+    display: block;
     right: 0;
   }
 }

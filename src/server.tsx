@@ -75,6 +75,8 @@ app.use('/:json?', async (req, res, next) => {
                 res.send(html);
             })
         } else {
+            // Refresh Data on Get Current Content
+            setTimeout(() => { newTweet.isComplete ? getInfo() && console.log(new Date().getSeconds()) : console.log('reject'); }, 150);
             res.send(newTweet.PubTimeline);
         }
     } catch (error) {
@@ -97,9 +99,12 @@ let io = socketIo(server);
 server.listen(8000, (err) => {
     err ? console.log(err) : console.log('Express with Socket running on port: 8000');
 })
-setInterval(() => { newTweet.isComplete ? getInfo() && console.log(new Date().getSeconds()) : console.log('reject'); }, 20000)
+// Initial Data
+setTimeout(() => { newTweet.isComplete ? getInfo() && console.log(new Date().getSeconds()) : console.log('reject'); }, 50);
 io.on('connection', (socket) => {
     // console.log(socket.request.headers.referer);
+    // Refresh Data On Peek Another Page
+    setTimeout(() => { newTweet.isComplete ? getInfo() && console.log(new Date().getSeconds()) : console.log('reject'); }, 1000);
     socket.on('isUpdate', () => {
         newTweet.Updated ? socket.emit('update', { data: newTweet.PubTimeline }) && (newTweet.Updated = false) : void 0;
     })
