@@ -88,6 +88,18 @@ body {
 .messageList .msg {
   margin: 20px 5px;
   background-color: white;
+  -webkit-transition: .6s;
+  -o-transition: .6s;
+  transition: .6s;
+}
+
+.messageList .msg:hover{
+  -webkit-box-shadow: 0 45px 100px rgba(14, 21, 47, 0.6), 0 16px 40px rgba(14, 21, 47, 0.6);
+  box-shadow: 0 45px 100px rgba(14, 21, 47, 0.6), 0 16px 40px rgba(14, 21, 47, 0.6);
+  -webkit-transform: scale3d(1.07,1.07,1.07);
+  -ms-transform: scale3d(1.07,1.07,1.07);
+  -o-transform: scale3d(1.07,1.07,1.07);
+  transform: scale3d(1.07,1.07,1.07);
 }
 
 .messageList .msg .msgBody {
