@@ -1,8 +1,5 @@
-import { AuthorizeParamObj, AuthorizeToken, IAuthorizeBaseParams, TokenInfo, IToken } from './modules/authorize';
-import { WeiboApi } from './modules/ApiStructure';
+import { AuthorizeParamObj, AuthorizeToken, TokenInfo, IToken } from './modules/authorize';
 import { httpRequest, writeFile, readFile } from './utils/promisified-io';
-import { ParamFormatGeneric } from './utils/paramsformat';
-import { StatusesBaseParam } from './modules/Status';
 import { getAuthorizeAddr } from './resources/GetAddr';
 import { config } from './resources/config';
 
@@ -18,16 +15,16 @@ export default class Route {
         try {
             if (!req.query.code) {
                 let paras = new AuthorizeParamObj(config.WeiboApp.client_id);
-                paras.params.InterfaceType.redirect_uri = config.Addresses.redirectUri;
-                let cb = getAuthorizeAddr('authorize', paras.params);
+                paras.InterfaceType.redirect_uri = config.Addresses.redirectUri;
+                let cb = getAuthorizeAddr('authorize', paras);
                 res.redirect(cb);
             } else {
                 let paras = new AuthorizeToken(config.WeiboApp.client_id)
-                paras.params.InterfaceType.client_secret = config.WeiboApp.client_secret;
-                paras.params.InterfaceType.grant_type = 'authorization_code';
-                paras.params.InterfaceType.code = req.param('code');
-                paras.params.InterfaceType.redirect_uri = config.Addresses.redirectUri;
-                let uri = getAuthorizeAddr('accessToken', paras.params);
+                paras.InterfaceType.client_secret = config.WeiboApp.client_secret;
+                paras.InterfaceType.grant_type = 'authorization_code';
+                paras.InterfaceType.code = req.param('code');
+                paras.InterfaceType.redirect_uri = config.Addresses.redirectUri;
+                let uri = getAuthorizeAddr('accessToken', paras);
                 let cbJSON = await httpRequest(uri, 'POST');
                 let cb = writeFile('./token.json', cbJSON);
                 res.redirect('/OAuth2/tokeninfo');
@@ -40,7 +37,7 @@ export default class Route {
         try {
             let token = await getTokenFromFile("./token.json"); // Get token json file from 
             let paras = new TokenInfo(token);
-            let uri = getAuthorizeAddr('getTokenInfo', paras.params)
+            let uri = getAuthorizeAddr('getTokenInfo', paras)
             let cb = await httpRequest(uri, 'POST');
             res.header("Content-Type", "application/json");
             res.send(cb);

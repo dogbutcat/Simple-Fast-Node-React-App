@@ -61,32 +61,49 @@ export enum AuthorizeDisplay {
 /**
  * AuthorizeParamObj
  */
-export class AuthorizeParamObj{
-    public params:ParamFormatGeneric<AuthorizeBaseParams>;
+export class AuthorizeParamObj extends ParamFormatGeneric<AuthorizeBaseParams>{
     constructor(appid) {
-        var temp = new AuthorizeBaseParams();
-        temp.client_id=appid;
-        this.params = new ParamFormatGeneric<AuthorizeBaseParams>(temp);
+        super(new AuthorizeBaseParams().client_id = appid);
     }
 }
+// Refined
+// export class AuthorizeParamObj{
+//     public params:ParamFormatGeneric<AuthorizeBaseParams>;
+//     constructor(appid) {
+//         var temp = new AuthorizeBaseParams();
+//         temp.client_id=appid;
+//         this.params = new ParamFormatGeneric<AuthorizeBaseParams>(temp);
+//     }
+// }
 
 /**
  * AuthorizeToken
  */
-export class AuthorizeToken{
-    public params: ParamFormatGeneric<AuthorizeBaseTokenParams>;
+export class AuthorizeToken extends ParamFormatGeneric<AuthorizeBaseTokenParams>{
     constructor(appid) {
-        var temp = new AuthorizeBaseTokenParams();
-        temp.client_id = appid;
-        this.params = new ParamFormatGeneric<AuthorizeBaseTokenParams>(temp);
+        super(new AuthorizeBaseTokenParams().client_id = appid);
+    }
+}
+// export class AuthorizeToken{
+//     public params: ParamFormatGeneric<AuthorizeBaseTokenParams>;
+//     constructor(appid) {
+//         var temp = new AuthorizeBaseTokenParams();
+//         temp.client_id = appid;
+//         this.params = new ParamFormatGeneric<AuthorizeBaseTokenParams>(temp);
+//     }
+// }
+
+export class TokenInfo extends ParamFormatGeneric<Token>{
+    constructor(accessToken) {
+        super(new Token().access_token = accessToken);
     }
 }
 
-export class TokenInfo{
-    public params:ParamFormatGeneric<Token>;
-	constructor(accessToken:string) {
-        let token = new Token();
-        token.access_token = accessToken;
-        this.params = new ParamFormatGeneric<Token>(token);
-	}
-}
+// export class TokenInfo{
+//     public params:ParamFormatGeneric<Token>;
+// 	constructor(accessToken:string) {
+//         let token = new Token();
+//         token.access_token = accessToken;
+//         this.params = new ParamFormatGeneric<Token>(token);
+// 	}
+// }

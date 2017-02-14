@@ -28,10 +28,15 @@ export class PubTimelineParams implements StatusesBaseParam{
     }
 }
 
-export class PubTimeline{
-    public params:ParamFormatGeneric<PubTimelineParams>;
-	constructor(accessToken:string) {
-        var temp = new PubTimelineParams(accessToken);
-        this.params = new ParamFormatGeneric<PubTimelineParams>(temp);
-	}
+export class PubTimeline extends ParamFormatGeneric<PubTimelineParams>{
+    constructor(accessToken: string) {
+        super(new PubTimelineParams(accessToken));
+    }
 }
+// export class PubTimeline{
+//     public params:ParamFormatGeneric<PubTimelineParams>;
+// 	constructor(accessToken:string) {
+//         var temp = new PubTimelineParams(accessToken);
+//         this.params = new ParamFormatGeneric<PubTimelineParams>(temp);
+// 	}
+// }
