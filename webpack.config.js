@@ -14,7 +14,8 @@ fs.readdirSync('node_modules')
   });
 
 var ServerConfig = {
-    entry: './src/server.tsx',
+    // entry: './src/server.tsx',
+    entry: './src/index.tsx',
     output: {
         filename: 'server.js',
         path: path.resolve(__dirname, './build'),

@@ -19,5 +19,6 @@ export const config = {
         commonAddr: "https://api.weibo.com/2/",
         weiboMain: "http://weibo.com",
         redirectUri: "Your callback Uri"
-    }
+    },
+    DbConnection: "Your MongoDB Connection, eg. mongodb://user:password@127.0.0.1:27017/database"
 }
