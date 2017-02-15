@@ -63,7 +63,9 @@ export enum AuthorizeDisplay {
  */
 export class AuthorizeParamObj extends ParamFormatGeneric<AuthorizeBaseParams>{
     constructor(appid) {
-        super(new AuthorizeBaseParams().client_id = appid);
+        var temp = new AuthorizeBaseParams();
+        temp.client_id = appid;
+        super(temp);
     }
 }
 // Refined
@@ -81,7 +83,9 @@ export class AuthorizeParamObj extends ParamFormatGeneric<AuthorizeBaseParams>{
  */
 export class AuthorizeToken extends ParamFormatGeneric<AuthorizeBaseTokenParams>{
     constructor(appid) {
-        super(new AuthorizeBaseTokenParams().client_id = appid);
+        var temp = new AuthorizeBaseTokenParams();
+        temp.client_id = appid;
+        super(temp);
     }
 }
 // export class AuthorizeToken{
@@ -95,7 +99,9 @@ export class AuthorizeToken extends ParamFormatGeneric<AuthorizeBaseTokenParams>
 
 export class TokenInfo extends ParamFormatGeneric<Token>{
     constructor(accessToken) {
-        super(new Token().access_token = accessToken);
+        var temp = new Token();
+        temp.access_token = accessToken;
+        super(temp);
     }
 }
 
