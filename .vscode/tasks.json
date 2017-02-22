@@ -12,8 +12,19 @@
             "taskName": "default",
             "args": [],
             "isBuildCommand": true,
-            "isWatching": false,
+            "isBackground": false,
             "problemMatcher": [
+                "$lessCompile",
+                "$tsc",
+                "$jshint"
+            ]
+        },
+        {
+            "taskName": "server",
+            "args": [],
+            "isBuildCommand": true,
+            "isBackground": false,
+            "problemMatcher":[
                 "$lessCompile",
                 "$tsc",
                 "$jshint"

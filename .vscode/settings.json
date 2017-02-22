@@ -6,5 +6,6 @@
         "js":"${workspaceRoot}/public/js",
         "img":"${workspaceRoot}/public/img"
     },
-    "npm-intellisense.scanDevDependencies": true
+    "npm-intellisense.scanDevDependencies": true,
+    "vsicons.presets.angular": false
 }

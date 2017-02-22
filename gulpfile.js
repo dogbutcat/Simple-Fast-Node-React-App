@@ -1,4 +1,6 @@
 var gulp = require('gulp'),
+    mocha = require('gulp-spawn-mocha'),
+    ts = require('gulp-typescript'),
     del = require('del'),
     browserSync = require('browser-sync').create(),
     webpack = require('webpack');
@@ -25,7 +27,7 @@ gulp.task('sync', () => {
     browserSync.init({
         proxy: {
             target: "http://localhost:8000",
-            ws:true
+            ws: true
         }
     })
     gulp.watch('./public/**/*.*').on('change', browserSync.reload);
@@ -37,3 +39,30 @@ gulp.task('watch', () => {
 })
 
 gulp.task('default', ['server', 'client']);
+
+gulp.task('test:ts', () => {
+    var tsProjection = ts.createProject('tsconfig.test.json');
+    return tsProjection.src().pipe(tsProjection())
+        // .pipe(mocha({
+        //     R: 'mochawesome'
+        // }))
+    .pipe(gulp.dest('./test/build'));
+})
+
+gulp.task('clean:test', () => {
+    let ret = del.sync(['./test/build/**']);
+    return ret;
+})
+
+gulp.task('watch:test', () => {
+    return gulp.watch('test/db/*.test.ts', ['mocha:test']);
+})
+
+gulp.task('mocha:test',['test:ts'], () => {
+    return gulp.src(['!test/build/test/db/token.test.js','test/build/test/db/*.test.js'])
+        .pipe(mocha({
+            R: 'mochawesome'
+        }))
+})
+
+gulp.task('mocha', ['clean:test','mocha:test', 'watch:test']);
