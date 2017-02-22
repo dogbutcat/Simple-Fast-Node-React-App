@@ -4,15 +4,11 @@ export const config = {
         accessToken: "oauth2/access_token",
         getTokenInfo: "oauth2/get_token_info"
     },
-    WeiboApp: {
-        client_id: 'APP_KEY',
-        client_secret: 'APP_SECRET'
+    Users: {
+        show_rank: 'users/show_rank.json'
     },
-    Users:{
-        show_rank:'users/show_rank.json'
-    },
-    Statuses:{
-        publicTimeline:'statuses/public_timeline.json'
+    Statuses: {
+        publicTimeline: 'statuses/public_timeline.json'
     },
     Addresses: {
         OAuth2Addr: "https://api.weibo.com/",
@@ -20,5 +16,9 @@ export const config = {
         weiboMain: "http://weibo.com",
         redirectUri: "Your callback Uri"
     },
-    DbConnection: "Your MongoDB Connection, eg. mongodb://user:password@127.0.0.1:27017/database"
+    Db: {
+        NumPerPage: 10, // Number of Every Page
+        DbConnection: "Your Production MongoDB Connection, eg. mongodb://user:password@127.0.0.1:27017/database",
+        TestDb: "Your Tests MongoDB Connection, eg. mongodb://user:password@127.0.0.1:27017/tests"
+    }
 }

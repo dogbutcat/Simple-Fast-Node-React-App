@@ -28,7 +28,7 @@ export class PubTimelineParams implements StatusesBaseParam{
     }
 }
 
-export class PubTimeline extends ParamFormatGeneric<PubTimelineParams>{
+export class PubTimelineReq extends ParamFormatGeneric<PubTimelineParams>{
     constructor(accessToken: string) {
         super(new PubTimelineParams(accessToken));
     }

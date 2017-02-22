@@ -5,6 +5,7 @@ import { TokenDal } from '../dal/TokenDal';
 import { Document } from 'mongoose';
 import { RetType } from '../modules/db/UpdateResult';
 
+@Object.seal
 export class TokenRepo extends BaseRepo<TokenDoc> implements TokenDal{
     constructor() {
         super(TokenModel);

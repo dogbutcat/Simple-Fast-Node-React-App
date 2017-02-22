@@ -1,5 +1,5 @@
 import { Write, Read } from '../dal/Common';
-import { Document, Model } from 'mongoose';
+import { Document, Model, Types } from 'mongoose';
 import { RetType } from '../modules/db/UpdateResult';
 
 export abstract class BaseRepo<T extends Document> implements Write<T>, Read<T>{
@@ -7,12 +7,15 @@ export abstract class BaseRepo<T extends Document> implements Write<T>, Read<T>{
     constructor(param: Model<Document>) {
         this._model = param;
     }
-    create(item: T) {
+    protected toObjectId(val: string) {
+        return Types.ObjectId.createFromHexString(val);
+    }
+    create(item: T | T[]) {
         return this._model.create(item);
     }
     update(id: string, item: T) {
         return new Promise<RetType>((resolve, reject) => {
-            this._model.update({ _id: id }, item, (err, result:RetType) => {
+            this._model.update({ _id: this.toObjectId(id) }, item, (err, result:RetType) => {
                 err ? reject(err) : resolve(result);
             });
         })

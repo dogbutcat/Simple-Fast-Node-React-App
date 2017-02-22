@@ -37,6 +37,6 @@ export class TokenBusiness implements BaseBusiness<TokenDoc>, TokenDal {
     }
     async getToken() {
         let result = await this._token.getToken();
-        return result;
+        return result.access_token;
     }
 }

@@ -1,5 +1,5 @@
 export interface Status {
-    created_at: string;
+    created_at: Date;
     id: number;
     mid: number;
     idstr: string;
@@ -65,7 +65,7 @@ interface UserInfo {
     pagefriends_count: number;
     statuses_count: number;
     favourites_count: number;
-    created_at: string;
+    created_at: Date;
     following: boolean;
     geo_enabled: boolean;
     verified: boolean;

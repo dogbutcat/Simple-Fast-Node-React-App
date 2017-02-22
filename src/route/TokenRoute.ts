@@ -1,10 +1,10 @@
 import { TokenController } from '../controller/TokenController';
 import * as express from 'express';
+import { BaseRoute } from './BaseRoute';
 
-export class TokenRoute{
-    private _controller: TokenController;
+export class TokenRoute extends BaseRoute<TokenController>{
     constructor() {
-        this._controller = new TokenController();
+        super(new TokenController());
     }
     get route() {
         let route = express.Router();

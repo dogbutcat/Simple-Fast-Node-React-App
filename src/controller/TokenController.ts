@@ -40,9 +40,8 @@ export class TokenController implements BaseController{
     }
     async getToken(req: Request, res: Response) {
         try {
-            // TODO: retrieve Token info
             let tokenBusiness = new TokenBusiness();
-            let result = await tokenBusiness.getClientId();
+            let result = await tokenBusiness.getToken();
             res.header("Content-Type", "application/json");
             res.send(JSON.stringify(result));
         } catch (e) {
