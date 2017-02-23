@@ -17,7 +17,7 @@ export default class Message extends React.Component<MessageProps, any>{
 
 interface BodyProps {
     text: string;
-    created_at: string;
+    created_at: Date;
 }
 class MessageBody extends React.Component<BodyProps, any>{
     // context: BodyContexts;

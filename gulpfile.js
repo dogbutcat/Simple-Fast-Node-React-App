@@ -41,17 +41,14 @@ gulp.task('watch', () => {
 gulp.task('default', ['server', 'client']);
 
 gulp.task('test:ts', () => {
-    var tsProjection = ts.createProject('tsconfig.test.json');
+    let ret = del.sync(['./test/build/**']);
+    console.log('These files have deleted: ' + ret);
+    let tsProjection = ts.createProject('tsconfig.test.json');
     return tsProjection.src().pipe(tsProjection())
         // .pipe(mocha({
         //     R: 'mochawesome'
         // }))
     .pipe(gulp.dest('./test/build'));
-})
-
-gulp.task('clean:test', () => {
-    let ret = del.sync(['./test/build/**']);
-    return ret;
 })
 
 gulp.task('watch:test', () => {
@@ -65,4 +62,4 @@ gulp.task('mocha:test',['test:ts'], () => {
         }))
 })
 
-gulp.task('mocha', ['clean:test','mocha:test', 'watch:test']);
+gulp.task('mocha', ['mocha:test', 'watch:test']);

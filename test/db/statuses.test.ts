@@ -32,7 +32,6 @@ class StatusTest {
     static after() { }
     @test @slow(200)
     testInserted() {
-        // console.log(StatusTest.example[0]);
         let changed = [];
         StatusTest.examples.forEach((val) => {
             let temp = val;
@@ -47,7 +46,7 @@ class StatusTest {
     testGetDefaultPage() {
         expect(this.repo.getPaging()).eventually.have.lengthOf(10);
         this.repo.getPaging().then((doc) => {
-            StatusTest.page_id = doc[0]._id;
+            StatusTest.page_id = doc[0]._id.toString();
             // console.log(StatusTest.page_id);
         })
     }
@@ -56,14 +55,13 @@ class StatusTest {
         let pageId = StatusTest.page_id.toString();
         console.log(pageId.length);
         expect(this.repo.getPaging(pageId, 2, 5)).eventually.have.lengthOf(5);
-        // this.repo.getPaging(StatusTest.page_id, 5, 5).then((doc) => {
-        //     doc.forEach((val) => {
-        //         console.log(val._id);
-        //     })
-        // })
     }
     @test
     testTotalCount() {
         expect(this.repo.getTotalCount()).eventually.be.equal(20);
+    }
+    @test
+    testValidateSchema() {
+        expect(this.repo.getPaging(StatusTest.page_id, 1)).eventually.to.have.deep.property('[0].geo', '').rejected;
     }
 }
