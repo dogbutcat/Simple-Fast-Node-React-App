@@ -1,9 +1,5 @@
 import { BaseController } from './BaseController';
 import { Request, Response } from 'express';
-import { TokenBusiness } from '../business/TokenBusiness';
-import { PubTimelineReq } from '../modules/Status';
-import { getStatusesAddr } from '../resources/GetAddr';
-import { httpRequest } from '../utils/promisified-io';
 import { StatuseBusiness } from '../business/StatuseBusiness';
 export class StatuseController implements BaseController {
     async create(req: Request, res: Response) {
@@ -31,18 +27,6 @@ export class StatuseController implements BaseController {
             res.send(JSON.stringify(result));
         } catch (error) {
             res.send(error);
-        }
-    }
-    async getAPIRequest() {
-        try {
-            let tokenBusiness = new TokenBusiness();
-            let token = await tokenBusiness.getToken();
-            let params = new PubTimelineReq(token);
-            let uri = getStatusesAddr('publicTimeline', params);
-            let result = await httpRequest(uri);
-            return result;
-        } catch (error) {
-            console.log(error);
         }
     }
 }

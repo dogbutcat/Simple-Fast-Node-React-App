@@ -49,7 +49,7 @@ export class StatuseBusiness implements BaseBusiness<StatusDoc>, StatusDal {
         let _pageNum = pageNum ? pageNum : 1;
         let _numPerPage = config.Db.NumPerPage;
         let pagedStatuses = await this._status.getPaging(_id, _pageNum, _numPerPage);
-        let totalPage = (await this._status.getTotalCount()) / config.Db.NumPerPage;
+        let totalPage = Math.ceil((await this._status.getTotalCount()) / config.Db.NumPerPage);
         let result: Tweet = {
             statuses: pagedStatuses,
             first_cursor: _id ? _id : pagedStatuses[0]._id,

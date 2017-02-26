@@ -17,6 +17,8 @@ export const config = {
         redirectUri: "Your callback Uri"
     },
     Db: {
+        AutoUpdate: true, // Allow update /** support hot reload */
+        UpdateInterval: 900, // Interval of update from API seconds
         NumPerPage: 10, // Number of Every Page
         DbConnection: "Your Production MongoDB Connection, eg. mongodb://user:password@127.0.0.1:27017/database",
         TestDb: "Your Tests MongoDB Connection, eg. mongodb://user:password@127.0.0.1:27017/tests"
