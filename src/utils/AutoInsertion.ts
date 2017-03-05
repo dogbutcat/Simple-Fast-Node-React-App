@@ -43,7 +43,7 @@ export async function Insertion() {
 
 export function IntervalAct(cb, socketIo: SocketIO.Server) {
     setInterval(async () => {
-        isComplete ? UpdateCount = await cb() : void 0;
-        UpdateCount > 0 ? socketIo.of('/').emit('update', { data: UpdateCount }) : void 0;
+        isComplete ? (UpdateCount = await cb()) : void 0;
+        UpdateCount > 0 ? socketIo.of('/').emit('newTweet', { count: UpdateCount }) : void 0;
     }, config.Db.UpdateInterval * 1000);
 }

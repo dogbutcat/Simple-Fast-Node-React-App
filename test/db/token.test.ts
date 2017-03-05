@@ -20,7 +20,7 @@ class TokenTest {
         TokenTest.tokenFile = JSON.parse(await readFile('token.json')) as TokenDoc;
         TokenTest.clientInfo = { client_id: 'xxxxx', client_secret: 'xxxxxxxx' };
         TokenTest.db = DataAccess.mongooseConnection.db;
-        await TokenTest.db.dropDatabase();
+        // await TokenTest.db.dropCollection('token');
     }
     before() {
         this.repo = new TokenRepo();

@@ -18,7 +18,7 @@ export class StatusRepo extends BaseRepo<StatusDoc> implements StatusDal {
     }
 }
 
-var projection = {
+let projection = {
     created_at: 1,
     text: 1,
     'user.name': 1,
