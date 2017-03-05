@@ -3,3 +3,4 @@ build
 public/js
 out.zip
 token.json
+.vscode/chrome

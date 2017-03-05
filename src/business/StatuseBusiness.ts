@@ -50,12 +50,12 @@ export class StatuseBusiness implements BaseBusiness<StatusDoc>, StatusDal {
         let _numPerPage = config.Db.NumPerPage;
         let pagedStatuses = await this._status.getPaging(_id, _pageNum, _numPerPage);
         let totalPage = Math.ceil((await this._status.getTotalCount()) / config.Db.NumPerPage);
-        let result: Tweet = {
+        let result: Tweet = _pageNum > totalPage ? { error: 'out range' } : {
             statuses: pagedStatuses,
             first_cursor: _id ? _id : pagedStatuses[0]._id,
             current_page: _pageNum,
             total_page: totalPage
         };
-        return _pageNum > totalPage ? { error: 'out range' } : result;
+        return result;
     }
 }

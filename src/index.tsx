@@ -5,6 +5,7 @@ import * as morgan from 'morgan';
 import { SetViewEngine } from './middleware/SetViewEngine';
 import { MiddlewareBase } from './middleware/MiddlewareBase';
 import { IntervalAct, Insertion } from './utils/AutoInsertion';
+import { RegistSocket } from './utils/RegistSocket';
 
 let app = express();
 let port = parseInt(process.env.PORT) || 8000;
@@ -23,3 +24,4 @@ server.listen(port, () => {
 })
 
 IntervalAct(Insertion, io);
+RegistSocket(io);

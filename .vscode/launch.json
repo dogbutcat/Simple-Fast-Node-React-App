@@ -2,6 +2,14 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Launch Chrome",
+            "url": "http://localhost:8000",
+            "webRoot": "${workspaceRoot}",
+            "userDataDir": "${workspaceRoot}/.vscode/chrome"
+        },
+        {
             "name": "Launch Server",
             "type": "node",
             "request": "launch",
@@ -16,6 +24,7 @@
             ],
             "env": {
                 "NODE_ENV": "development"
+                // "DEBUG":"socket.io*"
             },
             "console": "internalConsole",
             "sourceMaps": true,
@@ -48,7 +57,11 @@
             "name": "Launch Firefox",
             "type": "firefox",
             "request": "launch",
-            "url": "http://localhost:3000/",
+            "firefoxArgs": [
+                "-start-debugger-server",
+                "-no-remote"
+            ],
+            "url": "http://localhost:8000/",
             "webRoot": "${workspaceRoot}"
         }
     ],
