@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import App from './app';
-// import { PublicTimeline } from '../modules/Status';
 import { Tweet } from '../modules/local/Tweet';
 let rootEl = document.getElementById('react-app');
 var request = new XMLHttpRequest();

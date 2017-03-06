@@ -52,7 +52,7 @@ gulp.task('test:ts', () => {
 })
 
 gulp.task('watch:test', () => {
-    return gulp.watch('test/db/*.test.ts', ['mocha:test']);
+    return gulp.watch(['test/db/*.test.ts','src/**/*.ts'], ['mocha:test']);
 })
 
 gulp.task('mocha:test',['test:ts'], () => {
