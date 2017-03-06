@@ -1,7 +1,10 @@
 import { StatuseBusiness } from '../business/StatuseBusiness';
+import { Insertion, UpdaterAct } from './AutoInsertion';
+import { config } from '../resources/config';
 export function RegistSocket(IoServer: SocketIO.Server) {
     RetrieveNewStatuses(IoServer);
     GetNewPaging(IoServer);
+    LiveUpdater(IoServer);
 }
 
 function RetrieveNewStatuses(IoServer: SocketIO.Server) {
@@ -27,4 +30,8 @@ function GetNewPaging(IoServer: SocketIO.Server) {
                 socket.emit('newPage', { statuses: result.statuses, pagenum: result.current_page });
         })
     })
+}
+
+function LiveUpdater(IoServer: SocketIO.Server) {
+    UpdaterAct(Insertion, IoServer);
 }

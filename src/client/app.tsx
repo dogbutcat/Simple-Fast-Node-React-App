@@ -15,8 +15,7 @@ interface AppStates {
     objectId?: string,
     pageNum?: number,
     handleScroll?: () => any,
-    PublicTimeline?: StatusDoc[],
-    newStatuses?: StatusDoc[]
+    PublicTimeline?: StatusDoc[]
 }
 export default class App extends React.Component<AppProps, AppStates>{
     // static childContextTypes = {
@@ -45,8 +44,7 @@ export default class App extends React.Component<AppProps, AppStates>{
         objectId: this.props.PublicTimeline.first_cursor,
         pageNum: 1,
         isActiveBackTop: false,
-        PublicTimeline: this.props.PublicTimeline.statuses,
-        newStatuses: []
+        PublicTimeline: this.props.PublicTimeline.statuses
     }
     /**
      *update for load MessageList
@@ -83,7 +81,6 @@ export default class App extends React.Component<AppProps, AppStates>{
         _newStatuses = vals.statuses.concat(_newStatuses);
         this.setState({
             PublicTimeline: _newStatuses.slice(0, 20),
-            newStatuses: [],
             objectId: vals.objId,
             count: 0,
             pageNum: 2,
@@ -95,9 +92,7 @@ export default class App extends React.Component<AppProps, AppStates>{
         this.setState((prevState: AppStates) => {
             return {
                 isLoaded: true,
-                isComplete: false,
-                // isUpdate: false
-                // PublicTimeline: prevState.PublicTimeline
+                isComplete: false
             }
         })
     }
@@ -108,9 +103,7 @@ export default class App extends React.Component<AppProps, AppStates>{
         this.setState((prevState) => {
             return {
                 isComplete: true,
-                isLoaded: true,
-                // isUpdate: false,
-                // PublicTimeline: prevState.PublicTimeline
+                isLoaded: true
             }
         })
     }
@@ -134,6 +127,9 @@ export default class App extends React.Component<AppProps, AppStates>{
         //     })
         // })
     }
+    /**
+     * After click Peek
+     */
     updatePage() {
         this.socket.emit('toUpdate');
         this.socket.on('newData', (data) => {

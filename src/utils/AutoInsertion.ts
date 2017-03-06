@@ -7,6 +7,7 @@ import { config } from '../resources/config';
 
 let isComplete = true;
 let UpdateCount = 0;
+let _interval;
 
 async function getAPIRequest() {
     try {
@@ -22,7 +23,7 @@ async function getAPIRequest() {
     }
 }
 
-export async function Insertion() {
+export async function Insertion(notifier:string) {
     try {
         if (config.Db.AutoUpdate) {
             isComplete = false;
@@ -36,14 +37,26 @@ export async function Insertion() {
     } catch (error) {
         console.log(error);
     } finally {
-        console.log(new Date().toString());
+        console.log(new Date().toString() + notifier);
         isComplete = true;
     }
 }
 
-export function IntervalAct(cb, socketIo: SocketIO.Server) {
+export function IntervalAct(cb, socketIo: SocketIO.Server, intervalTime: number = config.Db.UpdateInterval) {
     setInterval(async () => {
-        isComplete ? (UpdateCount = await cb()) : void 0;
+        isComplete ? (UpdateCount = await cb('From Static Updater')) : void 0;
         UpdateCount > 0 ? socketIo.of('/').emit('newTweet', { count: UpdateCount }) : void 0;
-    }, config.Db.UpdateInterval * 1000);
+    }, intervalTime * 1000);
+}
+
+export function UpdaterAct(cb, IoSocket: SocketIO.Server, intervalTime: number = config.Db.LiveUpdateInterval) {
+    IoSocket.of('/').on('connection', async (socket) => {
+        _interval = setInterval(async () => {
+            isComplete ? (UpdateCount = await cb('From Session Updater')) : void 0;
+            UpdateCount > 0 ? IoSocket.of('/').emit('newTweet', { count: UpdateCount }) : void 0;
+        }, intervalTime * 1000);
+        socket.on('disconnect', () => {
+            clearInterval(_interval);
+        })
+    })
 }
