@@ -1,19 +1,33 @@
 var webpack = require('webpack'),
     path = require('path'),
-    fs = require('fs');
+    extend = require('extend')
+fs = require('fs');
 
 var publicPath = 'http://localhost';
 
 var nodeModules = {};
 fs.readdirSync('node_modules')
-  .filter(function(x) {
-    return ['.bin'].indexOf(x) === -1;
-  })
-  .forEach(function(mod) {
-    mod!=='handlebars'?nodeModules[mod] = 'commonjs ' + mod:null;
-  });
+    .filter(function (x) {
+        return ['.bin'].indexOf(x) === -1;
+    })
+    .forEach(function (mod) {
+        mod !== 'handlebars' ? nodeModules[mod] = 'commonjs ' + mod : null;
+    });
 
-var ServerConfig = {
+var sourceMap = !process.env.DEBUG ? {
+    devtool: 'source-map'
+} : {
+    plugins: [
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            },
+            minimize: true
+        })
+    ]
+}
+
+var ServerConfig = extend(true, {}, sourceMap, {
     // entry: './src/server.tsx',
     entry: './src/index.tsx',
     output: {
@@ -26,7 +40,7 @@ var ServerConfig = {
     resolve: {
         extensions: ['', '.tsx', '.ts', '.js', '.json', '.handlebars']
     },
-    devtool: 'source-map',
+    // devtool: 'source-map',
     module: {
         noParse: /node_modules\/json-schema\/lib\/validate\.js/,
         loaders: [{
@@ -40,9 +54,9 @@ var ServerConfig = {
             loader: 'handlerbars'
         }]
     },
-    externals:nodeModules
-}
-var ClientConfig = {
+    externals: nodeModules
+});
+var ClientConfig = extend(true, {}, sourceMap, {
     entry: './src/client/index.tsx',
     output: {
         filename: 'app.js',
@@ -61,18 +75,18 @@ var ClientConfig = {
     },
     ts: {
         compilerOptions: {
-            target:"es5"
+            target: "es5"
         }
-    },
-    plugins: [
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false
-            },
-            minimize:true
-        })
-    ]
-}
+    }
+    // plugins: [
+    //     new webpack.optimize.UglifyJsPlugin({
+    //         compress: {
+    //             warnings: false
+    //         },
+    //         minimize: true
+    //     })
+    // ]
+})
 
 module.exports = {
     ServerConfig,

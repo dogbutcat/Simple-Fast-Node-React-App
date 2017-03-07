@@ -19,7 +19,7 @@ gulp.task('client', () => {
 })
 
 gulp.task('clean', () => {
-    var ret = del.sync(['./build/**']);
+    var ret = del.sync(['./build/**','./public/js/app.*']);
     console.log('Files Deleted: ' + ret);
 })
 
