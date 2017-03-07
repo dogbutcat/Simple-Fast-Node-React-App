@@ -30,12 +30,12 @@ export class TokenController implements BaseController{
                 let cb = JSON.parse(cbJSON) as TokenDoc;
                 // let cb = JSON.parse(await readFile('token.json')) as TokenDoc; // Test token request back
                 let ret = await tokenBusiness.update(result.client_id, cb);
-                // res.send({ "result": "success" });
-                res.send(JSON.stringify(ret));
+                res.send({ "result": "success" });
+                // res.send(JSON.stringify(ret));
             }
         } catch (e) {
             console.error(e);
-            res.send(e);
+            res.send({ "result": "error" });
         }
     }
     async getToken(req: Request, res: Response) {
@@ -46,7 +46,7 @@ export class TokenController implements BaseController{
             res.send(JSON.stringify(result));
         } catch (e) {
             console.error(e);
-            res.send(e)
+            res.send({ "result": "error" });
         }
     }
 }
