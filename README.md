@@ -30,10 +30,10 @@ This is an example for node-react quick rendering application, providing for lea
 
 #### insert app id and app secret only for first time
 
-    > METHOD: POST
+    > METHOD: GET
     > PARAMS: {"client_id":"XXX","client_secret":"XXXX"}
     > URL: http://localhost:8000/OAuth2/callback
-    > RETURN: success or error
+    > RETURN: success or error after authentation
 
 #### get token info store in db
 
