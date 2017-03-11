@@ -1,5 +1,5 @@
 import { BaseController } from './BaseController';
-import { Request,Response } from 'express';
+import { Request, Response } from 'express';
 import { TokenDoc } from '../modules/db/TokenDoc';
 import { TokenBusiness } from '../business/TokenBusiness';
 import { AuthorizeParamObj, AuthorizeToken } from '../modules/authorize';
@@ -7,16 +7,19 @@ import { config } from '../resources/config';
 import { getAuthorizeAddr } from '../resources/GetAddr';
 import { httpRequest, readFile } from '../utils/promisified-io';
 
-export class TokenController implements BaseController{
+export class TokenController implements BaseController {
     async create(req: Request, res: Response) {
         try {
             let _doc = <TokenDoc>req.body;
             let tokenBusiness = new TokenBusiness();
             if (!req.query.code) {
+                let clientBody = await tokenBusiness.getClientId();
+                _doc = clientBody ? clientBody : _doc;
                 let params = new AuthorizeParamObj(_doc.client_id);
                 params.InterfaceType.redirect_uri = config.Addresses.redirectUri;
                 let cb = getAuthorizeAddr('authorize', params);
-                let result = await tokenBusiness.create(_doc);
+                // let result = await tokenBusiness.create(_doc);
+                !clientBody ? await tokenBusiness.create(_doc) : void 0;
                 res.redirect(cb);
             } else {
                 let result = await tokenBusiness.getClientId()
@@ -47,6 +50,16 @@ export class TokenController implements BaseController{
         } catch (e) {
             console.error(e);
             res.send({ "result": "error" });
+        }
+    }
+    async inputPage(req: Request, res: Response) {
+        try {
+            let tokenBusiness = new TokenBusiness();
+            let clientBody = await tokenBusiness.getClientId();
+            let result = await tokenBusiness.restore(clientBody.client_id);
+            clientBody ? res.redirect('/OAuth2/callback') : res.render('restore');
+        } catch (e) {
+            res.send(e);
         }
     }
 }

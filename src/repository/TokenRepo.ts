@@ -6,13 +6,13 @@ import { Document } from 'mongoose';
 import { RetType } from '../modules/db/UpdateResult';
 
 @Object.seal
-export class TokenRepo extends BaseRepo<TokenDoc> implements TokenDal{
+export class TokenRepo extends BaseRepo<TokenDoc> implements TokenDal {
     constructor() {
         super(TokenModel);
     }
-    update(id: string, item:TokenDoc) {
+    update(id: string, item: TokenDoc) {
         return new Promise<RetType>((resolve, reject) => {
-            this._model.update({ client_id: id }, item, (err, result:RetType) => {
+            this._model.update({ client_id: id }, item, (err, result: RetType) => {
                 err ? reject(err) : resolve(result);
             });
         })
@@ -43,5 +43,8 @@ export class TokenRepo extends BaseRepo<TokenDoc> implements TokenDal{
         //         err ? reject(err) : resolve(result);
         //     })
         // }) // Workable
+    }
+    restore(client_id: string) {
+        return this._model.update({ client_id: client_id }, { $unset: { uid: '', expires_in: '', remind_in: '', access_token: '' } }).exec();
     }
 }

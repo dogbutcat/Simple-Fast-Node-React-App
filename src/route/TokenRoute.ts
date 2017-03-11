@@ -9,8 +9,9 @@ export class TokenRoute extends BaseRoute<TokenController>{
     get route() {
         let route = express.Router();
         let controller = this._controller;
-        route.post('/callback', controller.create);
+        route.use('/callback', controller.create);
         route.get('/tokeninfo', controller.getToken);
+        route.get('/', controller.inputPage);
         return route;
     }
 }

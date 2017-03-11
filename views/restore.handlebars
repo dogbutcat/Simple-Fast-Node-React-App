@@ -1,0 +1,21 @@
+<section>
+    <input type="text" name="client_id" id="client_id" placeholder="client_id">
+    <input type="text" name="client_secret" id="client_secret" placeholder="client_secret">
+    {{!--<button type="submit" onclick="clickSubmit()">Submit</button>--}}
+    <input type="button" value="Submit" onclick="clickSubmit()">
+</section>
+<script>
+    function clickSubmit() {
+        var client_id = document.getElementById('client_id').innerText;
+        var client_secret = document.getElementById('client_secret').innerText;
+        if (client_id && client_secret) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('post', '/OAuth2/callback', true);
+            xhr.setRequestHeader('content-type', 'application/json');
+            xhr.send({ "client_id": client_id, "client_secret": client_secret })
+        }else{
+            alert('Check client_id or client_secret!');
+        }
+    }
+
+</script>
