@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Message from './Message';
+import Message from '../components/Message';
 import { StatusDoc } from '../../modules/db/StatusDoc';
 // interface MessageListProps extends Tweet {
 //     LoadComplete: () => void;

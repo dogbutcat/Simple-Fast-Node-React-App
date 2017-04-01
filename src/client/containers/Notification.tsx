@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Counter from './Counter';
+import Counter from '../components/Counter';
 
 export type NotificationProp = {
     count: number,

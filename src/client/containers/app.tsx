@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { Loader } from './components/Loader';
-import MessageList from './components/MessageList';
-import { Tweet } from '../modules/local/Tweet';
-import { StatusDoc } from '../modules/db/StatusDoc';
-import Notification from './components/Notification';
+import { Loader } from '../components/Loader';
+import MessageList from './MessageList';
+import { Tweet } from '../../modules/local/Tweet';
+import { StatusDoc } from '../../modules/db/StatusDoc';
+import Notification from './Notification';
 interface AppProps {
     PublicTimeline: Tweet
 }
