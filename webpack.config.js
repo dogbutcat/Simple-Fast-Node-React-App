@@ -29,7 +29,7 @@ var sourceMap = !process.env.DEBUG ? {
 
 var ServerConfig = extend(true, {}, sourceMap, {
     // entry: './src/server.tsx',
-    entry: './src/index.tsx',
+    entry: './src/index.ts',
     output: {
         filename: 'server.js',
         path: path.resolve(__dirname, './build'),
