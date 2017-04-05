@@ -1,15 +1,5 @@
 {
-    "compilerOptions": {
-        "module": "commonjs",
-        "target": "es6",
-        "noImplicitAny": false,
-        "sourceMap": true,
-        "allowJs": true,
-        "jsx": "react",
-        "allowSyntheticDefaultImports": true,
-        "experimentalDecorators": true
-        // "outDir": "build"
-    },
+    "extends":"./configs/BaseConfig.json",
     "files":[
         "test/**/*.ts",
         "src/**/*.ts"

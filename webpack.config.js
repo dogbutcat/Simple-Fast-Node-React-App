@@ -14,7 +14,7 @@ fs.readdirSync('node_modules')
         mod !== 'handlebars' ? nodeModules[mod] = 'commonjs ' + mod : null;
     });
 
-var sourceMap = !process.env.DEBUG ? {
+var sourceMap = process.env.DEBUG ? {
     devtool: 'source-map'
 } : {
     plugins: [

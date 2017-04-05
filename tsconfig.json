@@ -1,13 +1,6 @@
 {
+    "extends": "./configs/BaseConfig.json",
     "compilerOptions": {
-        "module": "commonjs",
-        "target": "es6",
-        "noImplicitAny": false,
-        "sourceMap": true,
-        "allowJs": true,
-        "jsx": "react",
-        "allowSyntheticDefaultImports": true,
-        "experimentalDecorators": true,
         "outDir": "./build"
     }
 }
