@@ -1,13 +1,30 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 import { Loader } from '../components/Loader';
 import MessageList from './MessageList';
-import { Tweet } from '../../modules/local/Tweet';
 import { StatusDoc } from '../../modules/db/StatusDoc';
 import Notification from './Notification';
-interface AppProps {
-    PublicTimeline: Tweet
+import { MainState } from '../constants/Tweet';
+import { fetchPosts, Scrolled, receivePage, recvNotification, recvCount } from '../actions/TweetAction';
+type StateProps = {
+    Posts: StatusDoc[],
+    isComplete: boolean,
+    isLoaded: boolean,
+    count: number,
+    objectId: string,
+    pageNum: number,
+    isActiveBackTop: boolean
 }
-interface AppStates {
+type DispatchProps = {
+    fetchPosts,
+    Scrolled,
+    receivePage,
+    recvNotification,
+    recvCount
+}
+type AppProps = StateProps & DispatchProps;
+
+type AppStates = {
     isComplete?: boolean,
     isLoaded?: boolean,
     count?: number,
@@ -15,9 +32,9 @@ interface AppStates {
     objectId?: string,
     pageNum?: number,
     handleScroll?: () => any,
-    PublicTimeline?: StatusDoc[]
+    Posts?: StatusDoc[]
 }
-export default class App extends React.Component<AppProps, AppStates>{
+export class App extends React.Component<AppProps, any>{
     // static childContextTypes = {
     //     PublicTimeline:React.PropTypes.object.isRequired
     // }
@@ -36,76 +53,27 @@ export default class App extends React.Component<AppProps, AppStates>{
     // });
     // }
     private _handleScroll = () => this.handleScroll();
-    state = {
-        isComplete: false,
-        isLoaded: false,
-        // isUpdate: false,
-        count: 0,
-        objectId: this.props.PublicTimeline.first_cursor,
-        pageNum: 1,
-        isActiveBackTop: false,
-        PublicTimeline: this.props.PublicTimeline.statuses
-    }
     /**
      *update for load MessageList
      */
     socket: SocketIOClient.Socket;
     componentDidMount() {
         // window.addEventListener('scroll', () => this.handleScroll());
+        // Dispatch fetch Posts
+        const { fetchPosts, receivePage, recvCount } = this.props
+        setTimeout(fetchPosts, 1000);
         window.addEventListener('scroll', this._handleScroll);
         this.socket = io.connect('/');
         this.socket.on('newTweet', (data) => {
-            this.showCount(data.count);
+            recvCount(data);
         })
         this.socket.on('newPage', async (data) => {
-            // console.log(data.statuses.length);
-            let _statuses = this.state.PublicTimeline.concat(data.statuses);
-            this.setState({
-                // PublicTimeline: _statuses.length > 110 ? _statuses.slice(10, 110) : _statuses,
-                PublicTimeline: _statuses,
-                pageNum: data.pagenum
-            })
+            receivePage(data);
         })
     }
     componentWillUnmount() {
         window.removeEventListener('scroll', this._handleScroll);
         this.socket.close();
-    }
-    showCount(num: number) {
-        this.setState((preState) => {
-            return { count: preState.count + num }
-        })
-    }
-    storeNewStatuses(vals) {
-        let _newStatuses = this.state.PublicTimeline;
-        _newStatuses = vals.statuses.concat(_newStatuses);
-        this.setState({
-            PublicTimeline: _newStatuses.slice(0, 20),
-            objectId: vals.objId,
-            count: 0,
-            pageNum: 2,
-            isLoaded: false,
-            isComplete: false
-        })
-    }
-    pageLoader() {
-        this.setState((prevState: AppStates) => {
-            return {
-                isLoaded: true,
-                isComplete: false
-            }
-        })
-    }
-    /**
-     *update for Full load
-     */
-    loadComplete() {
-        this.setState((prevState) => {
-            return {
-                isComplete: true,
-                isLoaded: true
-            }
-        })
     }
     gotoTop() {
         var s = (document.documentElement.scrollTop || document.body.scrollTop || 0), sp = Math.ceil(s / 10), self = this;
@@ -115,8 +83,9 @@ export default class App extends React.Component<AppProps, AppStates>{
         }
     }
     addNewTweet() {
-        let self = this;
-        this.socket.emit('getPaging', { objId: self.state.objectId, pageNum: self.state.pageNum + 1 });
+        const { objectId, pageNum } = this.props;
+        this.socket.emit('getPaging', { objId: objectId, pageNum: pageNum + 1 });
+
         // if set listener here will cause recursive receive event, it's an error!
         // this.socket.on('newPage', async (data) => {
         //     // console.log(data.statuses.length);
@@ -131,9 +100,11 @@ export default class App extends React.Component<AppProps, AppStates>{
      * After click Peek
      */
     updatePage() {
+        const { recvNotification, recvCount } = this.props
         this.socket.emit('toUpdate');
         this.socket.on('newData', (data) => {
-            this.storeNewStatuses(data);
+            recvCount({ count: 0 });
+            recvNotification(data);
         })
     }
     handleScroll() {
@@ -142,19 +113,47 @@ export default class App extends React.Component<AppProps, AppStates>{
         let s = (d.body.scrollTop || d.documentElement.scrollTop || 0);
         // let scrollend = (h + s) > d.body.offsetHeight;
         let scrolled = s > 300;
-        scrolled ? this.setState({ isActiveBackTop: true }) : this.setState({ isActiveBackTop: false });
+        const { Scrolled } = this.props
+        scrolled ? Scrolled(true) : Scrolled(false);
     }
     render() {
-        let child = (this.state.isLoaded) ? (<MessageList statuses={this.state.PublicTimeline}
-            LoadComplete={() => this.loadComplete()} isActiveBackTop={this.state.isActiveBackTop}
-            addNewTweet={() => this.addNewTweet()} gotoTop={() => this.gotoTop()} ></MessageList>) : '';
-        let loader = !this.state.isComplete ? (<Loader isComplete={this.state.isComplete} pageLoader={() => this.pageLoader()}></Loader>) : void 0;
+        const { Posts, isActiveBackTop, isComplete, count } = this.props
+        let child = (Posts.length > 0) ? (<MessageList statuses={Posts}
+            isActiveBackTop={isActiveBackTop} addNewTweet={() => this.addNewTweet()}
+            gotoTop={() => this.gotoTop()} ></MessageList>) : '';
+        let loader = !isComplete ? (<Loader isComplete={isComplete} ></Loader>) : void 0;
         return (
             <div>
                 {loader}
                 {child}
-                <Notification goTop={() => this.gotoTop()} updatePage={() => this.updatePage()} count={this.state.count}></Notification>
+                <Notification goTop={() => this.gotoTop()} updatePage={() => this.updatePage()} count={count}></Notification>
             </div>
         )
+    }
+}
+
+export default connect<StateProps, DispatchProps, any>(mapStateToProps, mapDispatchToProps)(App)
+
+function mapStateToProps(state: MainState): StateProps {
+    const { TweetShower } = state;
+    const { Posts, isActiveBackTop, count, objectId, pageNum, isComplete, isLoaded } = TweetShower;
+    return {
+        Posts: TweetShower.Posts,
+        isComplete: isComplete,
+        isLoaded: isLoaded,
+        isActiveBackTop: isActiveBackTop,
+        count: count,
+        objectId: objectId,
+        pageNum: pageNum
+    }
+}
+
+function mapDispatchToProps(dispatch): DispatchProps {
+    return {
+        fetchPosts: () => dispatch(fetchPosts()),
+        Scrolled: isScroll => dispatch(Scrolled(isScroll)),
+        receivePage: data => dispatch(receivePage(data)),
+        recvNotification: data => dispatch(recvNotification(data)),
+        recvCount: data => dispatch(recvCount(data))
     }
 }
