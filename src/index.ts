@@ -25,7 +25,8 @@ server.listen(port, () => {
 
 if (process.env.SOCKET === 'SERVER' || !process.env.SOCKET) {
     IntervalAct(Insertion, io);
-    if (process.env.SOCKET === 'CLIENT' || !process.env.SOCKET) {
-        RegistSocket(io);
-    }
+}
+
+if (process.env.SOCKET === 'CLIENT' || !process.env.SOCKET) {
+    RegistSocket(io);
 }
