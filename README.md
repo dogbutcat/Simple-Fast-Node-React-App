@@ -31,8 +31,8 @@ This is an example for node-react quick rendering application, providing for lea
 #### insert app id and app secret only for first time
 
     > METHOD: GET
-    > PARAMS: {"client_id":"XXX","client_secret":"XXXX"}
-    > URL: http://localhost:8000/OAuth2/callback
+    > BODY: {"client_id":"XXX","client_secret":"XXXX"}
+    > URL: http://localhost:8000/OAuth2
     > RETURN: success or error after authentation
 
 #### get token info store in db
@@ -59,6 +59,7 @@ This is an example for node-react quick rendering application, providing for lea
 * [X] ~~*add refresh after click notification*~~
 * [X] ~~*change Peek event to attach more pages in socket*~~
 * [X] ~~*check socket event wheather still emit after client closed*~~
+* [X] ~~*transform to redux*~~
 
 
 ## End
