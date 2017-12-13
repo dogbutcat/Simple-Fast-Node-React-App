@@ -19,7 +19,7 @@
     "express-handlebars": "^3.0.0",
     "extend": "^3.0.0",
     "isomorphic-fetch": "^2.2.1",
-    "mongoose": "^4.8.2",
+    "mongoose": "4.8.2",
     "morgan": "^1.8.1",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",

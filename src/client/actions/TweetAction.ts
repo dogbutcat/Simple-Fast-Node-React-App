@@ -82,9 +82,14 @@ export function recvCount(data):BaseAction<NOTIFICATION_COUNTER> {
 
 export function fetchPosts() {
     return dispatch => {
-        return fetch('/json').then(response => response.json())
+        return this.requestInitData()
             .then(json => {
                 return dispatch(receivePost(json));
             })
     }
+}
+
+export function requestInitData(url?) {
+    let addr = url ? url + '/json' : '/json';
+    return fetch(addr).then(response => response.json());
 }
